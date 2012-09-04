@@ -191,12 +191,3 @@ FakeWeb.register_uri(:get,
 "http://www.weather.gov/xml/current_obs/KSMO.xml",
   :body => File.read(File.dirname(__FILE__) + '/fixtures/services/noaa/90210_current.xml')
 )
-
-#
-# For NOAA station id finder
-#
-# http://forecast.weather.gov/MapClick.php?&textField1=34.10&textField2=-118.41
-FakeWeb.register_uri(:get, 
-  "http://forecast.weather.gov/MapClick.php?&textField1=34.10&textField2=-118.41",
-  :body => File.read(File.dirname(__FILE__) + '/fixtures/services/noaa/station_34_118.html')
-)

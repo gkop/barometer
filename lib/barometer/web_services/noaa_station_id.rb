@@ -33,12 +33,12 @@ module Barometer
       station_id = nil
       begin
         doc = Nokogiri::HTML.parse(response.body)
-        if doc && (link = doc.search("a[href*='http://www.weather.gov/data/obhistory/']")).present?
+        if doc && (link = doc.search("a[href*='http://www.weather.gov/data/obhistory/']")).any?
           begin
             station_id ||= link.last.attr("href").match(/.*\/(.*).html/)[1]
           rescue
           end
-        elsif doc && (link = doc.search("a[href*='http://www.wrh.noaa.gov/mesowest/getobext.php']")).present?
+        elsif doc && (link = doc.search("a[href*='http://www.wrh.noaa.gov/mesowest/getobext.php']")).any?
           begin
             station_id = link.last.attr("href").match(/sid=(\w+)&/)[1]
           rescue
