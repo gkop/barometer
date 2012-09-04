@@ -9,7 +9,6 @@ module Barometer
     # get the closest station id for given coordinates
     #
     def self.fetch(latitude, longitude)
-      
       begin
         require 'nokogiri'
       rescue LoadError
@@ -30,19 +29,18 @@ module Barometer
         :format => :html,
         :timeout => Barometer.timeout
       )
-      
       # parse the station id from the given page
       station_id = nil
-      
       begin
         doc = Nokogiri::HTML.parse(response.body)
-        if doc && link = doc.search(".link").last.attr("href")
+        if doc && (link = doc.search("a[href*='http://www.weather.gov/data/obhistory/']")).present?
           begin
-            station_id = link.match(/sid=(.*)&/)[1]
+            station_id ||= link.last.attr("href").match(/.*\/(.*).html/)[1]
           rescue
           end
+        elsif doc && (link = doc.search("a[href*='http://www.wrh.noaa.gov/mesowest/getobext.php']")).present?
           begin
-            station_id ||= link.match(/.*\/(.*).html/)[1]  
+            station_id = link.last.attr("href").match(/sid=(\w+)&/)[1]
           rescue
           end
         end

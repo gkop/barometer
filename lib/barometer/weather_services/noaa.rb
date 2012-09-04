@@ -58,28 +58,53 @@ module Barometer
       end
       
       current.temperature = Data::Temperature.new(metric)
-      current.temperature << [data['temp_c'], data['temp_f']]
+      if data['temp_c']
+        current.temperature << [data['temp_c'], data['temp_f']]
+      else
+        temp = data["parameters"]["temperature"].select do |t| 
+          t["type"] == "apparent"
+        end
+        celsius = Data::Temperature.f_to_c(temp.first["value"].to_i)
+        current.temperature << [celsius, temp.first["value"]]
+      end
+     
+      if data['wind_mph'] 
+        current.wind = Data::Speed.new(metric)
+        current.wind.mph = data['wind_mph'].to_f
+        current.wind.direction = data['wind_dir']
+        current.wind.degrees = data['wind_degrees'].to_i
+      end
+
+      if data['relative_humidity'] 
+        current.humidity = data['relative_humidity'].to_i
+      else
+        current.humidity = data["parameters"]["humidity"]["value"].to_i
+      end
       
-      current.wind = Data::Speed.new(metric)
-      current.wind.mph = data['wind_mph'].to_f
-      current.wind.direction = data['wind_dir']
-      current.wind.degrees = data['wind_degrees'].to_i
-      
-      current.humidity = data['relative_humidity'].to_i
-      
-      current.pressure = Data::Pressure.new(metric)
-      current.pressure << [data['pressure_mb'], data['pressure_in']]
-      
-      current.dew_point = Data::Temperature.new(metric)
-      current.dew_point << [data['dewpoint_c'], data['dewpoint_f']]
-      
-      current.wind_chill = Data::Temperature.new(metric)
-      current.wind_chill << [data['windchill_c'], data['windchill_f']]
-      
-      current.visibility = Data::Distance.new(metric)
-      current.visibility.m = data['visibility_mi'].to_f
-  
-      current.condition = data['weather']
+      if data['pressure_mb']
+        current.pressure = Data::Pressure.new(metric)
+        current.pressure << [data['pressure_mb'], data['pressure_in']]
+      end
+
+      if data['dewpoint_c']
+        current.dew_point = Data::Temperature.new(metric)
+        current.dew_point << [data['dewpoint_c'], data['dewpoint_f']]
+      end
+
+      if data['windchill_c']
+        current.wind_chill = Data::Temperature.new(metric)
+        current.wind_chill << [data['windchill_c'], data['windchill_f']]
+      end
+
+      if data['visibility_mi']
+        current.visibility = Data::Distance.new(metric)
+        current.visibility.m = data['visibility_mi'].to_f
+      end
+
+      if data['weather']
+        current.condition = data['weather']
+      end
+
       if data['icon_url_name']
         icon_match = data['icon_url_name'].match(/(.*).jpg/)
         current.icon = icon_match[1] if icon_match
@@ -176,8 +201,13 @@ module Barometer
         location.longitude = geo.longitude
       else
         if data && data['location']
-          location.city = data['location'].split(',')[0].strip
-          location.state_code = data['location'].split(',')[-1].strip
+          if data['location']['area_description']
+            loc = data['location']['area_description']
+          else
+            loc = data['location']
+          end
+          location.city = loc.split(',')[0].strip
+          location.state_code = loc.split(',')[-1].strip
           location.country_code = 'US'
         end
       end
@@ -189,9 +219,14 @@ module Barometer
       station = Data::Location.new
       station.id = data['station_id']
       if data['location']
-        station.name = data['location']
-        station.city = data['location'].split(',')[0].strip
-        station.state_code = data['location'].split(',')[-1].strip
+        if data['location']['area_description']
+          loc = data['location']['area_description']
+        else
+          loc = data['location']
+        end
+        station.name = loc
+        station.city = loc.split(',')[0].strip
+        station.state_code = loc.split(',')[-1].strip
         station.country_code = 'US'
         station.latitude = data['latitude']
         station.longitude = data['longitude']
@@ -220,12 +255,10 @@ module Barometer
         # we need to use the lst/long from the forecast data (result[0])
         # to get the closest "station_id", to get the current conditions
         #
-        station_id = Barometer::WebService::NoaaStation.fetch(
-          result[0]["location"]["point"]["latitude"],
-          result[0]["location"]["point"]["longitude"]
-        )
-      
-        result << _fetch_current(station_id,metric)
+        lat = result[0]["location"]["point"]["latitude"]
+        long = result[0]["location"]["point"]["longitude"]
+        station_id = Barometer::WebService::NoaaStation.fetch(lat, long)
+        result << _fetch_current(station_id, lat, long, metric)
       else
         puts "NOAA cannot proceed to fetching current weather, lat/lon unknown" if Barometer::debug?
         result << {}
@@ -236,16 +269,27 @@ module Barometer
 
     # use HTTParty to get the current weather
     #
-    def self._fetch_current(station_id, metric=true)
-      return {} unless station_id
-      puts "fetching NOAA current weather: #{station_id}" if Barometer::debug?
+    def self._fetch_current(station_id, lat, long, metric=true)
+      return {} unless (station_id && lat && long)
+puts "fetching NOAA current weather: #{station_id}" if Barometer::debug?
 
-      self.get(
+      r = self.get(
         "http://www.weather.gov/xml/current_obs/#{station_id}.xml",
         :query => {},
         :format => :xml,
         :timeout => Barometer.timeout
-      )["current_observation"]
+      )
+      return r["current_observation"] if r.success?
+
+      puts "fetching NOAA current weather: lat: #{lat}, long: #{long}" if Barometer::debug?
+
+      r = self.get(
+        "http://forecast.weather.gov/MapClick.php",
+        :query => {:lat => lat, :lon => long, "FcstType" => "dwml"},
+        :format => :xml,
+        :timeout => Barometer.timeout
+      )
+      r["dwml"]["data"][1]
     end
     
     # use HTTParty to get the forecasted weather
@@ -265,9 +309,9 @@ module Barometer
       end
       
       result = self.get(
-        "http://www.weather.gov/forecasts/xml/sample_products/browser_interface/ndfdBrowserClientByDay.php",
+        "http://graphical.weather.gov/xml/sample_products/browser_interface/ndfdBrowserClientByDay.php",
         :query => {
-          :format => "24 hourly",
+          :format => '24 hourly',
           :numDays => "7"
         }.merge(q),
         :format => :xml,
