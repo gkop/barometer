@@ -32,15 +32,15 @@ module Barometer
   # see API url provided above
   #
   class WeatherService::Noaa < WeatherService
-    
+
     #########################################################################
     # PRIVATE
     # If class methods could be private, the remaining methods would be.
     #
-    
+
     def self._source_name; :noaa; end
     def self._accepted_formats; [:zipcode, :coordinates]; end
-    
+
     # we can accept US, or we can try if the country is unknown
     #
     def self._supports_country?(query=nil)
@@ -49,38 +49,38 @@ module Barometer
 
     def self._build_current(data, metric=true)
       raise ArgumentError unless data.is_a?(Hash)
-      
+
       current = Measurement::Result.new
       return current if data.empty?
-            
+
       if data && data['observation_time_rfc822'] && (time_match = data['observation_time_rfc822'].match(/(.* \d\d:\d\d:\d\d)/))
         current.updated_at = Data::LocalDateTime.parse(time_match[1])
       end
-      
+
       current.temperature = Data::Temperature.new(metric)
       if data['temp_c']
         current.temperature << [data['temp_c'], data['temp_f']]
       else
-        temp = data["parameters"]["temperature"].select do |t| 
+        temp = data["parameters"]["temperature"].select do |t|
           t["type"] == "apparent"
         end
         celsius = Data::Temperature.f_to_c(temp.first["value"].to_i)
         current.temperature << [celsius, temp.first["value"]]
       end
-     
-      if data['wind_mph'] 
+
+      if data['wind_mph']
         current.wind = Data::Speed.new(metric)
         current.wind.mph = data['wind_mph'].to_f
         current.wind.direction = data['wind_dir']
         current.wind.degrees = data['wind_degrees'].to_i
       end
 
-      if data['relative_humidity'] 
+      if data['relative_humidity']
         current.humidity = data['relative_humidity'].to_i
       else
         current.humidity = data["parameters"]["humidity"]["value"].to_i
       end
-      
+
       if data['pressure_mb']
         current.pressure = Data::Pressure.new(metric)
         current.pressure << [data['pressure_mb'], data['pressure_in']]
@@ -109,16 +109,16 @@ module Barometer
         icon_match = data['icon_url_name'].match(/(.*).jpg/)
         current.icon = icon_match[1] if icon_match
       end
-      
+
       current
     end
-    
+
     def self._build_forecast(data, metric=true)
       raise ArgumentError unless data.is_a?(Hash)
 
       forecasts = Measurement::ResultArray.new
       return forecasts unless data && data['time_layout']
-      
+
       twelve_hour_starts = []
       twelve_hour_ends = []
       data['time_layout'].each do |time_layout|
@@ -128,7 +128,7 @@ module Barometer
           break
         end
       end
-      
+
       daily_highs = []
       daily_lows = []
       data['parameters']['temperature'].each do |temps|
@@ -139,7 +139,7 @@ module Barometer
           daily_lows = temps['value']
         end
       end
-      
+
       # NOAA returns 2 pop values for each day ... for each day, use the max pop value
       #
       daily_pops = []
@@ -147,46 +147,46 @@ module Barometer
         data['parameters']['probability_of_precipitation']['value']
         daily_pops = data['parameters']['probability_of_precipitation']['value'].collect{|i|i.respond_to?(:to_i) ? i.to_i : 0}.each_slice(2).to_a.collect{|x|x.max}
       end
-      
+
       daily_conditions = []
       if data['parameters']['weather'] &&
         data['parameters']['weather']['weather_conditions']
         daily_conditions = data['parameters']['weather']['weather_conditions'].collect{|c|c["weather_summary"]}
       end
-      
+
       daily_icons = []
       if data['parameters']['conditions_icon'] &&
         data['parameters']['conditions_icon']['icon_link']
         daily_icons = data['parameters']['conditions_icon']['icon_link'].collect{|c|c.match(/.*\/(.*)\.jpg/)[1]}
       end
-      
+
       d = 0
       # go through each forecast start date and create an instance
       twelve_hour_starts.each do |start_date|
         forecast_measurement = Measurement::Result.new(metric)
-        
+
         # day = 6am - 6am (next day)
         date_s = Date.parse(start_date)
         date_e = Date.parse(start_date) + 1
         forecast_measurement.valid_start_date = Data::LocalDateTime.new(date_s.year,date_s.month,date_s.day,6,0,0)
         forecast_measurement.valid_end_date = Data::LocalDateTime.new(date_e.year,date_e.month,date_e.day,5,59,59)
-        
+
         forecast_measurement.high = Data::Temperature.new(metric)
         forecast_measurement.high.f = (daily_highs[d].respond_to?(:to_f) ? daily_highs[d].to_f : nil)
         forecast_measurement.low = Data::Temperature.new(metric)
         forecast_measurement.low.f = (daily_lows[d].respond_to?(:to_f) ? daily_lows[d].to_f : nil)
-        
+
         forecast_measurement.pop = daily_pops[d]
         forecast_measurement.condition = daily_conditions[d]
         forecast_measurement.icon = daily_icons[d]
-        
+
         forecasts << forecast_measurement
         d += 1
       end
 
       forecasts
     end
-    
+
     def self._build_location(data, geo=nil)
       raise ArgumentError unless data.is_a?(Hash)
       raise ArgumentError unless (geo.nil? || geo.is_a?(Data::Geo))
@@ -213,7 +213,7 @@ module Barometer
       end
       location
     end
-    
+
     def self._build_station(data)
       raise ArgumentError unless data.is_a?(Hash)
       station = Data::Location.new
@@ -233,7 +233,7 @@ module Barometer
       end
       station
     end
-    
+
     def self._build_timezone(data)
       if data && data['observation_time']
         zone_match = data['observation_time'].match(/ ([A-Z]*)$/)
@@ -248,7 +248,7 @@ module Barometer
     def self._fetch(query, metric=true)
       result = []
       result << _fetch_forecast(query,metric)
-      
+
       # only proceed if we are getting results
       #
       if result[0] && !result[0].empty?
@@ -263,7 +263,7 @@ module Barometer
         puts "NOAA cannot proceed to fetching current weather, lat/lon unknown" if Barometer::debug?
         result << {}
       end
-      
+
       result
     end
 
@@ -291,12 +291,12 @@ puts "fetching NOAA current weather: #{station_id}" if Barometer::debug?
       )
       r["dwml"]["data"][1]
     end
-    
+
     # use HTTParty to get the forecasted weather
     #
     def self._fetch_forecast(query, metric=true)
       puts "fetching NOAA forecast: #{query.q}" if Barometer::debug?
-      
+
       q = case query.format.to_sym
       when :short_zipcode
         { :zipCodeList => query.q }
@@ -307,7 +307,7 @@ puts "fetching NOAA current weather: #{station_id}" if Barometer::debug?
       else
         {}
       end
-      
+
       result = self.get(
         "http://graphical.weather.gov/xml/sample_products/browser_interface/ndfdBrowserClientByDay.php",
         :query => {
@@ -317,7 +317,7 @@ puts "fetching NOAA current weather: #{station_id}" if Barometer::debug?
         :format => :xml,
         :timeout => Barometer.timeout
       )
-      
+
       if result && result["dwml"] && result["dwml"]["data"]
         result = result["dwml"]["data"]
       else
@@ -335,10 +335,10 @@ puts "fetching NOAA current weather: #{station_id}" if Barometer::debug?
       else
         return {}
       end
-      
+
       result
     end
-    
+
     # since we have two sets of data, override these calls to choose the
     # right set of data
     #
@@ -349,7 +349,7 @@ puts "fetching NOAA current weather: #{station_id}" if Barometer::debug?
     def self._sun_result(data=nil); nil; end
     def self._timezone_result(data=nil); data[1]; end
     def self._time_result(data=nil); data[1]; end
-    
+
   end
-  
+
 end
