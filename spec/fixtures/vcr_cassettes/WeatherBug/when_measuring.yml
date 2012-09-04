@@ -1,0 +1,145 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://A5656906587.api.wxbug.net/getLiveWeatherRSS.aspx?ACode=A5656906587&OutputType=1&UnitType=1&zipCode=90210
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      cache-control:
+      - private
+      content-type:
+      - application/xml; charset=utf-8
+      date:
+      - Tue, 04 Sep 2012 22:18:02 GMT
+      server:
+      - Microsoft-IIS/7.5
+      set-cookie:
+      - ASP.NET_SessionId=fqyrkxlcxwnpqtj0o1pq12qf; path=/; HttpOnly
+      x-aspnet-version:
+      - 4.0.30319
+      x-powered-by:
+      - ASP.NET
+      content-length:
+      - '4091'
+      connection:
+      - Close
+    body:
+      encoding: US-ASCII
+      string: ! "<aws:weather xmlns:aws=\"http://www.aws.com/aws\"><aws:api version=\"2.0\"
+        /><aws:WebURL>http://weather.weatherbug.com/CA/Los Angeles-weather.html?ZCode=Z5546&amp;Units=1&amp;stat=LSNGN</aws:WebURL><aws:InputLocationURL>http://weather.weatherbug.com/CA/Beverly
+        Hills-weather.html?ZCode=Z5546&amp;Units=1</aws:InputLocationURL><aws:ob><aws:ob-date><aws:year
+        number=\"2012\" /><aws:month number=\"9\" text=\"September\" abbrv=\"Sep\"
+        /><aws:day number=\"4\" text=\"Tuesday\" abbrv=\"Tue\" /><aws:hour number=\"3\"
+        hour-24=\"15\" /><aws:minute number=\"17\" /><aws:second number=\"00\" /><aws:am-pm
+        abbrv=\"PM\" /><aws:time-zone offset=\"-7\" text=\"Pacific Daylight Time (USA)\"
+        abbrv=\"PDT\" /></aws:ob-date><aws:requested-station-id /><aws:station-id>LSNGN</aws:station-id><aws:station>Alexander
+        Hamilton Senior HS</aws:station><aws:city-state zipcode=\"90034\">Los Angeles,
+        \ CA</aws:city-state><aws:country>USA</aws:country><aws:latitude>34.0336112976074</aws:latitude><aws:longitude>-118.389999389648</aws:longitude><aws:site-url>http://www.hamiltonhighschool.net/</aws:site-url><aws:aux-temp
+        units=\"&amp;deg;C\">29</aws:aux-temp><aws:aux-temp-rate units=\"&amp;deg;C\">1.0</aws:aux-temp-rate><aws:current-condition
+        icon=\"http://deskwx.weatherbug.com/images/Forecast/icons/cond003.gif\">Partly
+        Cloudy</aws:current-condition><aws:dew-point units=\"&amp;deg;C\">13</aws:dew-point><aws:elevation
+        units=\"m\">40</aws:elevation><aws:feels-like units=\"&amp;deg;C\">29</aws:feels-like><aws:gust-time><aws:year
+        number=\"2012\" /><aws:month number=\"9\" text=\"September\" abbrv=\"Sep\"
+        /><aws:day number=\"4\" text=\"Tuesday\" abbrv=\"Tue\" /><aws:hour number=\"2\"
+        hour-24=\"14\" /><aws:minute number=\"00\" /><aws:second number=\"00\" /><aws:am-pm
+        abbrv=\"PM\" /><aws:time-zone offset=\"-7\" text=\"Pacific Daylight Time (USA)\"
+        abbrv=\"PDT\" /></aws:gust-time><aws:gust-direction>SSW</aws:gust-direction><aws:gust-direction-degrees>190</aws:gust-direction-degrees><aws:gust-speed
+        units=\"km/h\">24</aws:gust-speed><aws:humidity units=\"%\">36</aws:humidity><aws:humidity-high
+        units=\"%\">98</aws:humidity-high><aws:humidity-low units=\"%\">34</aws:humidity-low><aws:humidity-rate>-13</aws:humidity-rate><aws:indoor-temp
+        units=\"&amp;deg;C\">34</aws:indoor-temp><aws:indoor-temp-rate units=\"&amp;deg;C\">1</aws:indoor-temp-rate><aws:light>18.5</aws:light><aws:light-rate>-0.3</aws:light-rate><aws:moon-phase
+        moon-phase-img=\"http://api.wxbug.net/images/moonphase/mphase16.gif\">88</aws:moon-phase><aws:pressure
+        units=\"mb\">1011.86</aws:pressure><aws:pressure-high units=\"mb\">1014.57</aws:pressure-high><aws:pressure-low
+        units=\"mb\">1011.86</aws:pressure-low><aws:pressure-rate units=\"mb/h\">-1.02</aws:pressure-rate><aws:rain-month
+        units=\"mm\">0.00</aws:rain-month><aws:rain-rate units=\"mm/h\">0.00</aws:rain-rate><aws:rain-rate-max
+        units=\"mm/h\">0.00</aws:rain-rate-max><aws:rain-today units=\"mm\">0.00</aws:rain-today><aws:rain-year
+        units=\"mm\">90.68</aws:rain-year><aws:temp units=\"&amp;deg;C\">29.4</aws:temp><aws:temp-high
+        units=\"&amp;deg;C\">30</aws:temp-high><aws:temp-low units=\"&amp;deg;C\">17</aws:temp-low><aws:temp-rate
+        units=\"&amp;deg;C/h\">2.9</aws:temp-rate><aws:sunrise><aws:year number=\"2012\"
+        /><aws:month number=\"9\" text=\"September\" abbrv=\"Sep\" /><aws:day number=\"4\"
+        text=\"Tuesday\" abbrv=\"Tue\" /><aws:hour number=\"6\" hour-24=\"06\" /><aws:minute
+        number=\"29\" /><aws:second number=\"44\" /><aws:am-pm abbrv=\"AM\" /><aws:time-zone
+        offset=\"-7\" text=\"Pacific Daylight Time (USA)\" abbrv=\"PDT\" /></aws:sunrise><aws:sunset><aws:year
+        number=\"2012\" /><aws:month number=\"9\" text=\"September\" abbrv=\"Sep\"
+        /><aws:day number=\"4\" text=\"Tuesday\" abbrv=\"Tue\" /><aws:hour number=\"7\"
+        hour-24=\"19\" /><aws:minute number=\"14\" /><aws:second number=\"10\" /><aws:am-pm
+        abbrv=\"PM\" /><aws:time-zone offset=\"-7\" text=\"Pacific Daylight Time (USA)\"
+        abbrv=\"PDT\" /></aws:sunset><aws:wet-bulb units=\"&amp;deg;C\">18.96</aws:wet-bulb><aws:wind-speed
+        units=\"km/h\">11</aws:wind-speed><aws:wind-speed-avg units=\"km/h\">11</aws:wind-speed-avg><aws:wind-direction>SSW</aws:wind-direction><aws:wind-direction-degrees>199</aws:wind-direction-degrees><aws:wind-direction-avg>SSW</aws:wind-direction-avg></aws:ob></aws:weather>\r\n"
+    http_version: '1.1'
+  recorded_at: Tue, 04 Sep 2012 22:18:01 GMT
+- request:
+    method: get
+    uri: http://A5656906587.api.wxbug.net/getForecastRSS.aspx?ACode=A5656906587&OutputType=1&UnitType=1&zipCode=90210
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      cache-control:
+      - private
+      content-type:
+      - application/xml; charset=utf-8
+      date:
+      - Tue, 04 Sep 2012 22:18:03 GMT
+      server:
+      - Microsoft-IIS/7.5
+      set-cookie:
+      - ASP.NET_SessionId=e0hwaar4thyetynsl1b43vqq; path=/; HttpOnly
+      x-aspnet-version:
+      - 4.0.30319
+      x-powered-by:
+      - ASP.NET
+      content-length:
+      - '4001'
+      connection:
+      - Close
+    body:
+      encoding: US-ASCII
+      string: ! "<aws:weather xmlns:aws=\"http://www.aws.com/aws\"><aws:api version=\"2.0\"
+        /><aws:WebURL>http://weather.weatherbug.com/CA/Beverly Hills-weather/local-forecast/7-day-forecast.html?ZCode=Z5546&amp;Units=1</aws:WebURL><aws:forecasts
+        type=\"Detailed\" date=\"9/4/2012 9:43:00 AM\"><aws:location><aws:city>Beverly
+        Hills</aws:city><aws:state>CA</aws:state><aws:zip>90210</aws:zip><aws:zone>CA041</aws:zone></aws:location><aws:forecast><aws:title
+        alttitle=\"TUE\">Tuesday</aws:title><aws:short-prediction>Partly Cloudy</aws:short-prediction><aws:image
+        isNight=\"0\" icon=\"cond003.gif\">http://deskwx.weatherbug.com/images/Forecast/icons/cond003.gif</aws:image><aws:description>Tuesday</aws:description><aws:prediction>Becoming
+        partly cloudy. Highs from the lower to mid 70s at the beaches to the lower
+        90s inland. Southwest winds around 15 mph in the afternoon.</aws:prediction><aws:high
+        units=\"&amp;deg;C\">31</aws:high><aws:low units=\"&amp;deg;C\">19</aws:low></aws:forecast><aws:forecast><aws:title
+        alttitle=\"WED\">Wednesday</aws:title><aws:short-prediction>Partly Cloudy</aws:short-prediction><aws:image
+        isNight=\"0\" icon=\"cond003.gif\">http://deskwx.weatherbug.com/images/Forecast/icons/cond003.gif</aws:image><aws:description>Wednesday</aws:description><aws:prediction>Partly
+        cloudy. A 20 percent chance of showers and thunderstorms in the afternoon.
+        Highs from near 70 at the beaches to the lower to mid 80s inland.</aws:prediction><aws:high
+        units=\"&amp;deg;C\">29</aws:high><aws:low units=\"&amp;deg;C\">18</aws:low></aws:forecast><aws:forecast><aws:title
+        alttitle=\"THU\">Thursday</aws:title><aws:short-prediction>Partly Cloudy</aws:short-prediction><aws:image
+        isNight=\"0\" icon=\"cond003.gif\">http://deskwx.weatherbug.com/images/Forecast/icons/cond003.gif</aws:image><aws:description>Thursday</aws:description><aws:prediction>Partly
+        cloudy. Highs from near 70 at the beaches to the lower to mid 80s inland.</aws:prediction><aws:high
+        units=\"&amp;deg;C\">29</aws:high><aws:low units=\"&amp;deg;C\">18</aws:low></aws:forecast><aws:forecast><aws:title
+        alttitle=\"FRI\">Friday</aws:title><aws:short-prediction>Partly Cloudy</aws:short-prediction><aws:image
+        isNight=\"0\" icon=\"cond003.gif\">http://deskwx.weatherbug.com/images/Forecast/icons/cond003.gif</aws:image><aws:description>Friday</aws:description><aws:prediction>Partly
+        cloudy in the morning...then becoming sunny. Highs from the 70s at the beaches
+        to the mid to upper 80s inland.</aws:prediction><aws:high units=\"&amp;deg;C\">31</aws:high><aws:low
+        units=\"&amp;deg;C\">18</aws:low></aws:forecast><aws:forecast><aws:title alttitle=\"SAT\">Saturday</aws:title><aws:short-prediction>Mostly
+        Sunny</aws:short-prediction><aws:image isNight=\"0\" icon=\"cond026.gif\">http://deskwx.weatherbug.com/images/Forecast/icons/cond026.gif</aws:image><aws:description>Saturday</aws:description><aws:prediction>Mostly
+        clear. Lows in the 60s. Highs from near 70 at the beaches to near 90 inland.</aws:prediction><aws:high
+        units=\"&amp;deg;C\">31</aws:high><aws:low units=\"&amp;deg;C\">19</aws:low></aws:forecast><aws:forecast><aws:title
+        alttitle=\"SUN\">Sunday</aws:title><aws:short-prediction>Mostly Sunny</aws:short-prediction><aws:image
+        isNight=\"0\" icon=\"cond026.gif\">http://deskwx.weatherbug.com/images/Forecast/icons/cond026.gif</aws:image><aws:description>Sunday</aws:description><aws:prediction>Mostly
+        clear. Lows in the 60s. Highs from near 70 at the beaches to near 90 inland.</aws:prediction><aws:high
+        units=\"&amp;deg;C\">33</aws:high><aws:low units=\"&amp;deg;C\">19</aws:low></aws:forecast><aws:forecast><aws:title
+        alttitle=\"MON\">Monday</aws:title><aws:short-prediction>Sunny</aws:short-prediction><aws:image
+        isNight=\"0\" icon=\"cond007.gif\">http://deskwx.weatherbug.com/images/Forecast/icons/cond007.gif</aws:image><aws:description>Monday</aws:description><aws:prediction>Sunny.
+        Highs from the upper 60s to mid 70s at the beaches to the lower 80s inland.</aws:prediction><aws:high
+        units=\"&amp;deg;C\">28</aws:high><aws:low units=\"&amp;deg;C\">--</aws:low></aws:forecast></aws:forecasts></aws:weather>\r\n"
+    http_version: '1.1'
+  recorded_at: Tue, 04 Sep 2012 22:18:02 GMT
+recorded_with: VCR 2.2.4

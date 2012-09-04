@@ -6,7 +6,6 @@ FakeWeb.allow_net_connect = false
 #
 WEATHER_PARTNER_KEY = "1234"
 WEATHER_LICENSE_KEY = "12345"
-WEATHERBUG_CODE = "A9999"
 YAHOO_KEY = "YAHOO"
 
 #
@@ -97,21 +96,6 @@ FakeWeb.register_uri(:get,
 FakeWeb.register_uri(:get, 
   "http://www.google.com/ig/api?weather=#{CGI.escape('Calgary,AB')}&hl=en-GB",
   :body => File.read(File.dirname(__FILE__) + '/fixtures/services/google/calgary_ab.xml')
-)
-#
-# for WeatherBug weather
-#
-# http://CODE.api.wxbug.net/getLiveWeatherRSS.aspx?ACode=CODE&OutputType=1&UnitType=1&zipCode=90210
-bug_url_current = "http://#{WEATHERBUG_CODE}.api.wxbug.net:80/getLiveWeatherRSS.aspx?"
-FakeWeb.register_uri(:get, 
-  "#{bug_url_current}ACode=#{WEATHERBUG_CODE}&OutputType=1&UnitType=1&zipCode=90210",
-  :body => File.read(File.dirname(__FILE__) + '/fixtures/services/weather_bug/90210_current.xml')
-)
-# http://CODE.api.wxbug.net/getForecastRSS.aspx?ACode=CODE&OutputType=1&UnitType=1&zipCode=90210
-bug_url_future = "http://#{WEATHERBUG_CODE}.api.wxbug.net:80/getForecastRSS.aspx?"
-FakeWeb.register_uri(:get, 
-  "#{bug_url_future}ACode=#{WEATHERBUG_CODE}&OutputType=1&UnitType=1&zipCode=90210",
-  :body => File.read(File.dirname(__FILE__) + '/fixtures/services/weather_bug/90210_forecast.xml')
 )
 #
 # for weather.com weather
