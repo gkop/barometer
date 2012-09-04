@@ -1,7 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe "Query::Coordinates" do
-  
+
   before(:each) do
     @short_zipcode = "90210"
     @zipcode = @short_zipcode
@@ -12,22 +12,22 @@ describe "Query::Coordinates" do
     @geocode = "New York, NY"
     @icao = "KSFO"
   end
-  
+
   describe "and class methods" do
-    
+
     it "returns a format" do
       Barometer::Query::Format::Coordinates.format.should == :coordinates
     end
-    
+
     it "returns a country" do
       Barometer::Query::Format::Coordinates.country_code.should be_nil
     end
-    
+
     it "returns a regex" do
       Barometer::Query::Format::Coordinates.regex.should_not be_nil
       Barometer::Query::Format::Coordinates.regex.is_a?(Regexp).should be_true
     end
-    
+
     it "returns the convertable_formats" do
       Barometer::Query::Format::Coordinates.convertable_formats.should_not be_nil
       Barometer::Query::Format::Coordinates.convertable_formats.is_a?(Array).should be_true
@@ -39,26 +39,26 @@ describe "Query::Coordinates" do
       Barometer::Query::Format::Coordinates.convertable_formats.include?(:icao).should be_true
       Barometer::Query::Format::Coordinates.convertable_formats.include?(:geocode).should be_true
     end
-    
+
     describe "is?," do
-      
+
       before(:each) do
         @valid = "40.756054,-73.986951"
         @invalid = "invalid"
       end
-      
+
       it "recognizes a valid format" do
         Barometer::Query::Format::Coordinates.is?(@valid).should be_true
       end
-      
+
       it "recognizes non-valid format" do
         Barometer::Query::Format::Coordinates.is?(@invalid).should be_false
       end
-      
+
     end
-  
+
     describe "when converting using 'to'," do
-      
+
       it "requires a Query::Format object" do
         lambda { Barometer::Query::Format::Coordinates.to }.should raise_error(ArgumentError)
         lambda { Barometer::Query::Format::Coordinates.to("invalid") }.should raise_error(ArgumentError)
@@ -66,7 +66,7 @@ describe "Query::Coordinates" do
         query.is_a?(Barometer::Query).should be_true
         lambda { Barometer::Query::Format::Coordinates.to(original_query) }.should_not raise_error(ArgumentError)
       end
-      
+
       it "returns a Barometer::Query" do
         query = Barometer::Query.new(@short_zipcode)
         Barometer::Query::Format::Coordinates.to(query).is_a?(Barometer::Query).should be_true
@@ -144,23 +144,23 @@ describe "Query::Coordinates" do
       end
 
     end
-    
+
     describe "parsing" do
-      
+
       it "returns the latitude" do
         Barometer::Query::Format::Coordinates.parse_latitude(@coordinates).should == "40.756054"
       end
-      
+
       it "returns the longitude" do
         Barometer::Query::Format::Coordinates.parse_longitude(@coordinates).should == "-73.986951"
       end
-      
+
       it "returns nil when unknown" do
         Barometer::Query::Format::Coordinates.parse_longitude(@short_zipcode).should be_nil
       end
-      
+
     end
-    
+
   end
-  
+
 end

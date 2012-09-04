@@ -5,14 +5,14 @@ module Barometer
   # uses Weather.com search to obtain a weather id
   #
   class WebService::WeatherID < WebService
-    
+
     # get the weather_id for a given query
     #
     def self.fetch(query)
       puts "fetch weather_id: #{query.q}" if Barometer::debug?
       return nil unless query
       raise ArgumentError unless _is_a_query?(query)
-      
+
       self.get(
         "http://xoap.weather.com/search/search",
         :query => { :where => _adjust_query(query.q) }, :format => :plain,
@@ -26,14 +26,15 @@ module Barometer
       puts "reverse weather_id: #{query.q}" if Barometer::debug?
       return nil unless query
       raise ArgumentError unless _is_a_query?(query)
-      self.get(
+      r = self.get(
         "http://weather.yahooapis.com/forecastrss",
         :query => { :p => query.q },
         :format => :xml,
         :timeout => Barometer.timeout
-      )['rss']['channel']["yweather:location"]
+      )
+      r['rss']['channel']["location"]
     end
-    
+
     # filter out words that weather.com has trouble geo-locating
     # mostly these are icao related
     #
