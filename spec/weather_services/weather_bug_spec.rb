@@ -134,7 +134,7 @@ describe "WeatherBug" do
   end
 
   describe "when measuring" do
-    use_vcr_cassette
+    use_vcr_cassette(:match_requests_on => [:method, :weather_bug])
 
     before(:each) do
       @query = Barometer::Query.new("90210")
@@ -174,7 +174,7 @@ describe "WeatherBug" do
   end
 
   describe "overall data correctness" do
-    use_vcr_cassette
+    use_vcr_cassette(:match_requests_on => [:method, :weather_bug])
 
     before(:each) do
       @query = Barometer::Query.new("90210")

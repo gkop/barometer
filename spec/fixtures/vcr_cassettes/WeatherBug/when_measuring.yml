@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://A5656906587.api.wxbug.net/getLiveWeatherRSS.aspx?ACode=A5656906587&OutputType=1&UnitType=1&zipCode=90210
+    uri: http://stewie.api.wxbug.net/getLiveWeatherRSS.aspx?ACode=stewie&OutputType=1&UnitType=1&zipCode=90210
     body:
       encoding: US-ASCII
       string: ''
@@ -76,7 +76,7 @@ http_interactions:
   recorded_at: Tue, 04 Sep 2012 22:18:01 GMT
 - request:
     method: get
-    uri: http://A5656906587.api.wxbug.net/getForecastRSS.aspx?ACode=A5656906587&OutputType=1&UnitType=1&zipCode=90210
+    uri: http://stewie.api.wxbug.net/getForecastRSS.aspx?ACode=stewie&OutputType=1&UnitType=1&zipCode=90210
     body:
       encoding: US-ASCII
       string: ''

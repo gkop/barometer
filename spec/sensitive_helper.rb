@@ -5,6 +5,7 @@ begin
   API_KEYS = options
   WEATHERBUG_CODE = API_KEYS["weather_bug"]["code"]
 rescue Exception => ex
+  WEATHERBUG_CODE = "stewie"
   puts "Error parsing sensitive options from yaml file #{yml_file}: #{ex.inspect}"
 end
 
