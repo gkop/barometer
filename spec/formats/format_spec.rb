@@ -23,7 +23,7 @@ describe "Query::Format" do
     
     describe "converts?," do
       
-      it "requires a Query object" do
+      it "requires a Barometer::Query object" do
         invalid = 1
         Barometer::Query::Format.converts?(invalid).should be_false
         
@@ -39,7 +39,7 @@ describe "Query::Format" do
       
     end
     
-    it "detects a Query object" do
+    it "detects a Barometer::Query object" do
       invalid = 1
       Barometer::Query::Format.is_a_query?.should be_false
       Barometer::Query::Format.is_a_query?(invalid).should be_false

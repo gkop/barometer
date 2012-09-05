@@ -10,7 +10,7 @@ describe "Query::Geocode" do
     
     describe "fetch," do
       
-      it "requires a Query object" do
+      it "requires a Barometer::Query object" do
         lambda { Barometer::WebService::Geocode.fetch }.should raise_error(ArgumentError)
         lambda { Barometer::WebService::Geocode.fetch("invalid") }.should raise_error(ArgumentError)
         query = Barometer::Query.new(@zipcode)

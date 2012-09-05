@@ -10,42 +10,42 @@ describe "Query::ShortZipcode" do
   describe "and class methods" do
     
     it "returns a format" do
-      Query::Format::ShortZipcode.format.should == :short_zipcode
+      Barometer::Query::Format::ShortZipcode.format.should == :short_zipcode
     end
     
     it "returns a country" do
-      Query::Format::ShortZipcode.country_code.should == "US"
-      Query::Format::ShortZipcode.country_code("ignored").should == "US"
+      Barometer::Query::Format::ShortZipcode.country_code.should == "US"
+      Barometer::Query::Format::ShortZipcode.country_code("ignored").should == "US"
     end
     
     it "returns a regex" do
-      Query::Format::ShortZipcode.regex.should_not be_nil
-      Query::Format::ShortZipcode.regex.is_a?(Regexp).should be_true
+      Barometer::Query::Format::ShortZipcode.regex.should_not be_nil
+      Barometer::Query::Format::ShortZipcode.regex.is_a?(Regexp).should be_true
     end
     
     describe "is?," do
       
       it "recognizes a valid format" do
-        Query::Format::ShortZipcode.is?(@valid).should be_true
+        Barometer::Query::Format::ShortZipcode.is?(@valid).should be_true
       end
       
       it "recognizes non-valid format" do
-        Query::Format::ShortZipcode.is?(@invalid).should be_false
+        Barometer::Query::Format::ShortZipcode.is?(@invalid).should be_false
       end
       
     end
   
     it "stubs to" do
-      Query::Format::ShortZipcode.to.should be_nil
+      Barometer::Query::Format::ShortZipcode.to.should be_nil
     end
     
     it "stubs convertable_formats" do
-      Query::Format::ShortZipcode.convertable_formats.should == []
+      Barometer::Query::Format::ShortZipcode.convertable_formats.should == []
     end
     
     it "doesn't convert" do
       query = Barometer::Query.new(@valid)
-      Query::Format::ShortZipcode.converts?(query).should be_false
+      Barometer::Query::Format::ShortZipcode.converts?(query).should be_false
     end
     
   end

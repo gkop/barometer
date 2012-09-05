@@ -59,7 +59,7 @@ describe "Query::Coordinates" do
 
     describe "when converting using 'to'," do
 
-      it "requires a Query::Format object" do
+      it "requires a Barometer::Query::Format object" do
         lambda { Barometer::Query::Format::Coordinates.to }.should raise_error(ArgumentError)
         lambda { Barometer::Query::Format::Coordinates.to("invalid") }.should raise_error(ArgumentError)
         query = Barometer::Query.new(@zipcode)

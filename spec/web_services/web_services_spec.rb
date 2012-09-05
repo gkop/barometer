@@ -10,7 +10,7 @@ describe "Web Services" do
         lambda { Barometer::WebService.fetch }.should raise_error(NotImplementedError)
       end
       
-      it "detects a Query object" do
+      it "detects a Barometer::Query object" do
         invalid = 1
         Barometer::WebService.send("_is_a_query?").should be_false
         Barometer::WebService.send("_is_a_query?", invalid).should be_false
