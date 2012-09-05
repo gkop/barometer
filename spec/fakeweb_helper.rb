@@ -136,28 +136,3 @@ FakeWeb.register_uri(:get,
   "http://api.wunderground.com/auto/wui/geo/ForecastXML/index.xml?query=#{CGI.escape('Calgary,AB')}",
   :body => File.read(File.dirname(__FILE__) + '/fixtures/services/wunderground/forecast_calgary_ab.xml')
 )
-
-#
-# For Placemaker
-#
-# curl -d "documentType=text%2Fhtml&outputType=xml&documentContent=<html><body><div class=\"geo\"><span class=\"latitude\">40.756054</span><span class=\"longitude\">-73.986951</span></div></body></html>" http://wherein.yahooapis.com/v1/document
-# curl -d "documentType=text%2Fhtml&outputType=xml&documentContent=Chicago" http://wherein.yahooapis.com/v1/document
-#
-FakeWeb.register_uri(:post, 
-  "http://wherein.yahooapis.com/v1/document",
-  [
-    {:body => File.read(File.dirname(__FILE__) + '/fixtures/services/placemaker/the_hills.xml')},
-    {:body => File.read(File.dirname(__FILE__) + '/fixtures/services/placemaker/the_hills.xml')},
-    {:body => File.read(File.dirname(__FILE__) + '/fixtures/services/placemaker/the_hills.xml')},
-    {:body => File.read(File.dirname(__FILE__) + '/fixtures/services/placemaker/T5B4M9.xml')},  
-    {:body => File.read(File.dirname(__FILE__) + '/fixtures/services/placemaker/coords.xml')},
-    {:body => File.read(File.dirname(__FILE__) + '/fixtures/services/placemaker/new_york.xml')},
-    {:body => File.read(File.dirname(__FILE__) + '/fixtures/services/placemaker/atlanta.xml')},
-    {:body => File.read(File.dirname(__FILE__) + '/fixtures/services/placemaker/ksfo.xml')}
-  ]
-)
-
-FakeWeb.register_uri(:get, 
-  "http://weather.yahooapis.com/forecastrss?w=615702",
-  :body => File.read(File.dirname(__FILE__) + '/fixtures/services/placemaker/w615702.xml')
-)

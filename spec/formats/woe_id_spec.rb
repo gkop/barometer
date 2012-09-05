@@ -1,6 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe "Query::WoeID" do
+  use_vcr_cassette(:match_requests_on => [:uri, :body])
 
   before(:each) do
     @short_zipcode = "90210"
@@ -198,7 +199,7 @@ describe "Query::WoeID" do
         query = Barometer::Query.new(@icao)
         query.format.should == :icao
         new_query = Barometer::Query::Format::WoeID.to(query)
-        new_query.q.should == "2451206"
+        new_query.q.should == "2487956"
         new_query.country_code.should == "US"
         new_query.format.should == :woe_id
         new_query.geo.should_not be_nil
