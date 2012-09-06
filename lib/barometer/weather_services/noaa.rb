@@ -170,6 +170,7 @@ module Barometer
         date_e = Date.parse(start_date) + 1
         forecast_measurement.valid_start_date = Data::LocalDateTime.new(date_s.year,date_s.month,date_s.day,6,0,0)
         forecast_measurement.valid_end_date = Data::LocalDateTime.new(date_e.year,date_e.month,date_e.day,5,59,59)
+        forecast_measurement.date = forecast_measurement.valid_start_date.to_d
 
         forecast_measurement.high = Data::Temperature.new(metric)
         forecast_measurement.high.f = (daily_highs[d].respond_to?(:to_f) ? daily_highs[d].to_f : nil)
