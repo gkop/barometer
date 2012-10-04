@@ -169,7 +169,7 @@ describe "Query::WoeID" do
         query = Barometer::Query.new(@coordinates)
         query.format.should == :coordinates
         new_query = Barometer::Query::Format::WoeID.to(query)
-        new_query.q.should == "2459115"
+        new_query.q.should == "12589342"
         new_query.country_code.should be_nil
         new_query.format.should == :woe_id
         new_query.geo.should be_nil
