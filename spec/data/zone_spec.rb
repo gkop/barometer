@@ -113,7 +113,7 @@ describe "Data::Zone" do
         utc_time = @zone.local_to_utc(local_time)
       
         offset =  @zone.tz.period_for_utc(local_time).utc_total_offset
-        utc_time.should == (local_time - offset)
+        utc_time.should eq(local_time - offset)
       end
     
       it "converts utc to local_time" do
@@ -121,7 +121,7 @@ describe "Data::Zone" do
         local_time = @zone.utc_to_local(utc_time)
       
         offset =  @zone.tz.period_for_utc(local_time).utc_total_offset
-        utc_time.should == (local_time - offset)
+        utc_time.should eq(local_time - offset)
       end
       
     end
