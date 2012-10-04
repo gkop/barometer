@@ -148,8 +148,8 @@ describe "NOAA" do
 
       # build current
       @measurement.current.humidity.should be_a_kind_of(Fixnum)
-      @measurement.current.condition.should == "Fair"
-      @measurement.current.icon.should == "skc"
+      @measurement.current.condition.length.should > 0
+      @measurement.current.icon.length.should == 3
       @measurement.current.temperature.should be_a_kind_of(Data::Temperature)
       @measurement.current.dew_point.should be_a_kind_of(Data::Temperature)
       @measurement.current.wind.mph(false).should be_a_kind_of(Float)

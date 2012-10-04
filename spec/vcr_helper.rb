@@ -3,7 +3,7 @@ require 'vcr'
 VCR.configure do |c|
   c.cassette_library_dir = 'spec/fixtures/vcr_cassettes'
   c.hook_into :fakeweb
-  c.default_cassette_options = { :record => :new_episodes, :serialize_with => :psych }
+  c.default_cassette_options = { :record => :new_episodes, :serialize_with => :json }
   c.register_request_matcher :weather_bug do |request_1, request_2|
     a = URI(request_1.uri)
     b = URI(request_2.uri)
